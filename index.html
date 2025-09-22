@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics Quiz</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* Global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #0a0a0a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Static gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-45deg, #ff33cc, #33ccff, #ff33cc, #33ccff);
+            background-size: 400% 400%;
+            z-index: -1;
+        }
+
+        /* Container styling */
+        .container {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 90%;
+            max-width: 500px;
+            margin-bottom: 80px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #df0c0c, #450992);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: glowText 2s infinite alternate;
+            z-index: 3; /* Ensure heading is above other elements */
+        }
+
+        @keyframes glowText {
+            0% {
+                text-shadow: 0 0 10px rgba(255, 51, 204, 0.7), 0 0 20px rgba(255, 51, 204, 0.7);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(51, 204, 255, 0.7), 0 0 40px rgba(51, 204, 255, 0.7);
+            }
+        }
+
+
+
+
+        p {
+            max-width: 600px;
+            margin: auto;
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            color: #ccc;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid white;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 51, 204, 0.5), transparent 70%);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        .btn:hover {
+            background: white;
+            color: #ff33cc;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+
+        .btn:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* About Me Button */
+        .about-me {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 4;
+        }
+
+        .about-me-btn {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .about-me-btn:hover {
+            background: white;
+            color: #ff33cc;
+        }
+
+        /* About Me Content */
+        .about-me-content {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 5;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .about-me-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #ff33cc, #33ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-me-content p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff33cc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #ff33cc;
+        }
+
+        /* Popup styling */
+        .popup-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .popup {
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup h2 {
+            color: #ff33cc;
+            font-size: 1.5rem;
+        }
+
+        .popup ul {
+            text-align: left;
+            padding: 0;
+            list-style: none;
+        }
+
+        .popup ul li {
+            padding: 5px 0;
+            font-size: 1rem;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            margin: 10px 5px 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .exit-btn {
+            background: #ff3333;
+            color: white;
+        }
+
+        .continue-btn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .popup button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer styling */
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+        }
+
+        .footer-content p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        /* Particle animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none; /* Prevent particles from interfering with clicks */
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-20px) translateX(20px);
+            }
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+        }
+
+        /* Media Queries for Mobile */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .about-me-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .about-me-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .about-me-content p {
+                font-size: 1rem;
+            }
+
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .footer-content p {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content -->
+    <div class="container">
+        <h1>Statistics Quiz</h1>
+        <h2>Sub code: 226E4B</h2>
+        <p>Test your knowledge on Statatic with this interactive quiz!</p>
+        <a href="#" class="btn" onclick="openPopup()">Start Quiz</a>
+    </div>
+
+    <!-- About Me Button -->
+    <div class="about-me">
+        <button class="about-me-btn" onclick="showAboutMe()">About Us</button>
+    </div>
+
+    <!-- About Me Content -->
+    <div class="about-me-content" id="aboutMeContent">
+        <h2>About Us</h2>
+        <p>Name: </p>
+        <p>
+            S.Vignesh (23ai006)
+            <a href="https://www.instagram.com/itzz_vickys/?utm_source=ig_web_button_share_sheet" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="15">
+            </a>
+        </p>
+
+        <p>
+            A. Mahindra (23ai044)
+            <a href="https://www.instagram.com/its___mahi___way?igsh=eTRwYWNqejQ4czI55" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="15">
+            </a>
+        </p>
+
+        <p>
+            A. HariHaran (23ai031)
+            <a href="https://www.instagram.com/harix._.vd?igsh=MXBxNHRpOTR3b3pwdg==" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" width="15">
+            </a>
+        </p>
+
+        <p>Degree: B.Sc Computer Science with A.I</p>
+        <p>College: A.M. Jain College</p>
+        <button class="back-btn" onclick="hideAboutMe()">Back</button>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup-bg" id="popupBg">
+        <div class="popup">
+            <h2>Quiz Guide</h2>
+            <ul>
+                <li>Read each question carefully before answering.</li>
+                <li>You will have a limited time for each question.</li>
+                <li>Ensure a stable internet connection.</li>
+                <li>Click 'Continue' to start the quiz.</li>
+            </ul>
+            <button class="exit-btn" onclick="closePopup()">Exit Quiz</button>
+            <button class="continue-btn" onclick="window.location.href='quiz.html'">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+          <center>   <p>&copy; 2025 S.Vignesh, A.Mahindra, A.HariHaran | B.Sc Computer Science with A.I | A.M. Jain College</p> </center>
+        </div>
+    </footer>
+
+    <!-- Particle animation -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script>
+        // Create particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = 100;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
+            particlesContainer.appendChild(particle);
+        }
+
+        // Popup functions
+        function openPopup() {
+            document.getElementById('popupBg').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('popupBg').style.display = 'none';
+        }
+
+        // Show About Me
+        function showAboutMe() {
+            document.getElementById('aboutMeContent').style.display = 'flex';
+            document.querySelector('footer').style.display = 'none'; // Hide footer
+        }
+
+        // Hide About Me
+        function hideAboutMe() {
+            document.getElementById('aboutMeContent').style.display = 'none';
+            document.querySelector('footer').style.display = 'block'; // Show footer
+        }
+        function openAboutMe() {
+    const aboutMe = document.getElementById('aboutMeContent');
+    aboutMe.style.display = 'flex'; // Show the container
+}
+
+function closeAboutMe() {
+    const aboutMe = document.getElementById('aboutMeContent');
+    aboutMe.style.display = 'none'; // Hide the container
+}
+
+// Example: Add a button to open the about-me content
+document.querySelector('.open-about-me-button').addEventListener('click', openAboutMe);
+    </script>
+</body>
+</html>
