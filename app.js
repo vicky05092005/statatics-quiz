@@ -540,12 +540,16 @@ document.getElementById("start-quiz-btn").addEventListener("click", ()=> {
 document.getElementById("admin-login-btn").addEventListener("click", ()=> {
   const id = document.getElementById("admin-id").value.trim();
   const pass = document.getElementById("admin-pass").value;
-  if (id === "Vicky" && pass === "Vicky2005") || (id==="MA002" && pass==="Kgm#29") {
-    isAdmin = true;
-    document.getElementById("welcome-overlay").style.display = "none";
-    openAdminPanel();
-  } else alert("Invalid admin credentials");
-});
+  if (
+  (id === "Vicky" && pass === "Vicky2005") || 
+  (id === "MA002" && pass === "Kgm#29")
+) {
+  isAdmin = true;
+  document.getElementById("welcome-overlay").style.display = "none";
+  openAdminPanel();
+} else {
+  alert("Invalid admin credentials");
+  });
 
 // next/restart
 document.getElementById("next-btn").addEventListener("click", ()=> {
