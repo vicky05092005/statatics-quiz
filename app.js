@@ -549,6 +549,7 @@ document.getElementById("admin-login-btn").addEventListener("click", ()=> {
   openAdminPanel();
 } else {
   alert("Invalid admin credentials");
+  }
   });
 
 // next/restart
